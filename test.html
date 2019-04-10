@@ -1,0 +1,126 @@
+<!-- 
+  文件目录的介绍
+    db                     数据库存储目录
+    models                 数据库模型文件目录
+    node_modules           node第三方模块目录
+    public                 公共文件目录(css、js、image)
+    routers                路由文件目录
+    schemas                数据库结构文件(schema)目录
+    views                  模板视图文件目录
+    app.js                 应用(启动)入口文件
+    package.json           
+-->
+
+<!-- 
+  用户的访问
+    1>用户通过URL访问web应用，如http://localhost:8081/
+    2>web后端根据用户访问的URL处理不同的业务逻辑
+-->
+
+<!-- 
+  处理请求输出
+    1>路由绑定：通过app.get()或app.post()等方法可以把一个url路径和一个或N个函数进行绑定
+        app.get('/',function(req,res,next){})
+            req:request对象-保存客户端请求相关的一些数据-http.request
+            res:response对象-服务端输出对象，提供了一些服务器端输出相关的一些方法 - http.response
+            next:方法，用于执行下一个和路径匹配的函数
+    2>内容输出
+        通过res.send(string)发送内容至客户端
+-->
+
+<!-- 
+  使用模板：
+    后端逻辑和页面表现分离 - 前后端分离
+  
+    模板配置
+      var swig =require('swig')
+
+      app.engine('html',swig.renderFile); 定义模块引擎，使用swig.renderFile方法解析后缀为html的文件
+
+      app.set('views','./views'); 设置模板存放目录
+
+      app.set('view engine','html');注册模板引擎
+-->
+
+<!--   
+  用户发送http请求 -> url -> 解析路由 -> 找到匹配的规则 -> 执行指定的绑定的函数，返回对应内容至用用
+  public文件 -> 静态 -> 直接读取指定目录下的文件，返回给用户
+  其他的-> 动态 -> 处理业务逻辑，加载模板，解析模板 ->返回数据给用户
+-->
+
+<!-- 
+  划分模块：
+    根据功能进行模块划分
+      1>前台模块
+      2>后台管理模块
+      3>API模块
+    
+    使用app.use()进行模块划分  第一个是路由，
+      app.use('/admin',require('./routers/admin'));   用于管理后台
+      app.use('/api',require('./routers/api'));    用于管理api
+      app.use('/',require('./routers/main'));    用于管理前台
+
+    main模块：  
+      /                          首页
+      /view                      内容页
+    
+    api模块：
+      /                          首页
+      /register                  用户注册
+      /login                     用户登录
+      /comment                   评论获取
+      /comment/post              评论提交
+
+    admin模块
+      /                          首页
+      1>用户管理
+        /user                    用户列表
+      2>分类管理
+        /category                分类列表
+        /category/add            分类添加
+        /category/edit           分类修改
+        /category/delete         分类删除
+      3>文章内容管理
+        /article                 内容列表
+        /article/add             内容添加
+        /article/edit            内容修改
+        /article/delete          内容删除
+      4>评论内容管理
+        /comment                 评论列表
+        /comment/delete          评论删除
+-->
+
+<!-- 
+  功能开发顺序
+    1>功能模块开发顺序
+        用户
+        栏目
+        内容
+        评论
+    2>编码顺序
+        通过Schema定义设计数据存储结构
+        功能逻辑
+        页面展示
+
+  用户注册
+    1>UserSchema结构设计
+    2>注册界面
+    3>注册逻辑
+        1.使用ajax方式实现注册
+        2.api接口编写
+
+-->
+
+<!-- 
+  数据库的使用
+    1>开启mongodb数据库
+        mongodb --dbpath=数据库文件保存路径
+          https://www.mongodb.com
+    2>数据保存
+        使用mongoose操作数据库
+          http://mongoosejs.com
+    3>创建model
+        通过Schema创建模型类
+        mongoose.model('模型类名称',Schema)
+-->
+
